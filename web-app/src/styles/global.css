@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brutalist-gray: #2a2a2a;
+  --color-brutalist-gray-light: #4a4a4a;
+  --color-brutalist-gray-mid: #3a3a3a;
+  --color-brutalist-yellow: #f0c040;
+  --color-brutalist-yellow-dark: #d4a830;
+  --color-brutalist-text: #e5e5e5;
+  
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
+}
+
+html {
+  background-color: var(--color-brutalist-gray);
+  color: var(--color-brutalist-text);
+}
+
+body {
+  background-color: var(--color-brutalist-gray);
+  color: var(--color-brutalist-text);
+  min-height: 100vh;
+  font-family: var(--font-sans);
+}
+
+.brutal-box {
+  border: 4px solid #000;
+  background-color: var(--color-brutalist-gray);
+}
+
+@utility brutal-box {
+  border: 4px solid #000;
+  background-color: var(--color-brutalist-gray);
+}
