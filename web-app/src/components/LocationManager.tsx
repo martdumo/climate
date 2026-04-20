@@ -39,7 +39,7 @@ export default function LocationManager({ onLocationChange, initialLocation }: L
   const handleGeolocation = () => {
     setError(null);
     if (!navigator.geolocation) {
-      setError('Geolocation no está disponible en tu navegador');
+      setError('Geolocation no disponible');
       return;
     }
 
@@ -75,7 +75,7 @@ export default function LocationManager({ onLocationChange, initialLocation }: L
         }
         setLoading(false);
       },
-      (err) => {
+      () => {
         setError('No se pudo obtener tu ubicación');
         setLoading(false);
       }
@@ -122,51 +122,50 @@ export default function LocationManager({ onLocationChange, initialLocation }: L
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex gap-2">
+    <div className="space-y-3">
+      <div className="flex flex-col sm:flex-row gap-2">
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
           placeholder="Buscar ciudad..."
-          className="flex-1 px-3 py-2 border-2 border-brutalist-gray-mid bg-brutalist-gray text-brutalist-text 
-            placeholder:text-brutalist-text/40 focus:outline-none focus:border-brutalist-yellow transition-colors"
+          className="flex-1 px-3 py-3 sm:py-2 text-base sm:text-sm border-2 border-black bg-brutalist-gray text-brutalist-text 
+            placeholder:text-brutalist-text/40 focus:outline-none focus:border-brutalist-yellow"
         />
         <button
           onClick={handleSearch}
           disabled={loading}
-          className="px-4 py-2 border-2 border-brutalist-yellow bg-brutalist-yellow text-brutalist-gray 
-            font-bold uppercase text-sm hover:bg-brutalist-yellow-dark transition-colors disabled:opacity-50"
+          className="px-4 py-3 sm:py-2 border-2 border-black bg-brutalist-yellow text-brutalist-gray 
+            font-bold uppercase text-sm hover:bg-brutalist-yellow-dark disabled:opacity-50"
         >
-          Buscar
+         Buscar
         </button>
       </div>
 
       <button
         onClick={handleGeolocation}
         disabled={loading}
-        className="w-full px-4 py-2 border-2 border-brutalist-gray-mid bg-brutalist-gray-mid text-brutalist-text 
-          font-bold uppercase text-sm hover:border-brutalist-yellow transition-colors disabled:opacity-50"
+        className="w-full px-4 py-3 border-2 border-black bg-brutalist-gray-mid text-brutalist-text 
+          font-bold uppercase text-sm hover:border-brutalist-yellow disabled:opacity-50"
       >
         {loading ? 'Cargando...' : 'Usar mi ubicación'}
       </button>
 
       {error && (
-        <p className="text-red-400 text-sm">{error}</p>
+        <p className="text-red-400 text-xs">{error}</p>
       )}
 
       {results.length > 0 && (
-        <ul className="border-2 border-brutalist-gray-mid">
+        <ul className="border-2 border-black max-h-48 overflow-y-auto">
           {results.map((result) => (
             <li key={result.id}>
               <button
                 onClick={() => handleSelect(result)}
-                className="w-full px-3 py-2 text-left hover:bg-brutalist-gray-mid transition-colors 
-                  text-brutalist-text flex justify-between items-center"
+                className="w-full px-3 py-2 text-left hover:bg-brutalist-gray-mid text-sm truncate"
               >
-                <span>{result.name}{result.admin1 && `, ${result.admin1}`}</span>
-                <span className="text-brutalist-text/60 text-sm">{result.country}</span>
+                <span className="block truncate">{result.name}{result.admin1 && `, ${result.admin1}`}</span>
+                <span className="text-xs text-brutalist-text/60">{result.country}</span>
               </button>
             </li>
           ))}
@@ -175,10 +174,10 @@ export default function LocationManager({ onLocationChange, initialLocation }: L
 
       {currentLocation && (
         <div className="border-2 border-brutalist-yellow p-3">
-          <p className="text-brutalist-yellow text-sm font-bold uppercase">Ubicación seleccionada</p>
-          <p className="text-brutalist-text">{currentLocation.name}{currentLocation.country && `, ${currentLocation.country}`}</p>
-          <p className="text-brutalist-text/60 text-xs mt-1">
-            {currentLocation.latitude.toFixed(4)}, {currentLocation.longitude.toFixed(4)} • {currentLocation.timezone}
+          <p className="text-brutalist-yellow text-xs font-bold uppercase">Ubicación</p>
+          <p className="text-sm truncate">{currentLocation.name}{currentLocation.country && `, ${currentLocation.country}`}</p>
+          <p className="text-xs text-brutalist-text/60">
+            {currentLocation.latitude.toFixed(2)}, {currentLocation.longitude.toFixed(2)} • {currentLocation.timezone}
           </p>
         </div>
       )}
